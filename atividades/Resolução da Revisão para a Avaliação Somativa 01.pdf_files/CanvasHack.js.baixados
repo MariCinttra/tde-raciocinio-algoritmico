@@ -1,0 +1,186 @@
+
+/******************
+*  Cursos Abertos
+*******************/
+incluirScriptHeader();
+alteraNomeCursosAbertos();
+hideBigBlueButton();
+telaLoginError();
+ocultarListaCruzada();
+
+
+
+//incluirPesquisa();
+//hideOpcoesContato();
+
+
+function incluirScriptHeader(){
+   $('head').append('<script type="text/javascript" src="https://cdn.cookielaw.org/consent/9d96696a-e0db-4620-85c7-0842b259d9ad/OtAutoBlock.js" ></script> <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="9d96696a-e0db-4620-85c7-0842b259d9ad" ></script> <script type="text/javascript"> function OptanonWrapper() { } </script>')
+}
+
+
+function ocultarListaCruzada()
+{
+	var url = window.location.href;
+	ehSecao = url.indexOf("/sections/");
+	ehAdmin  = url.indexOf("?admin=1");
+	
+	if(ehSecao > 0 && ehAdmin == -1)
+	{
+		var objBotao = document.getElementsByClassName("crosslist_link");
+		var tamanho = objBotao.length;
+		for(aux=0;aux<1;aux++)	{		
+			objBotao[aux].style.display = 'none';
+		}	
+	}
+}
+
+
+
+
+function telaLoginError(){
+	
+	var url = window.location.href;
+	
+	//#if(url == 'https://pucpr.beta.instructure.com/login' || url == 'https://pucpr.instructure.com/login')
+	if(url == 'https://pucpr.instructure.com/login')
+	{
+		var objBlocoMsg = document.getElementById("unauthorized_holder");
+		var html 	 	= objBlocoMsg.innerHTML;
+		var mensagem 	= '';
+		
+		mensagem = mensagem + '<div style="padding-left:100px"><p>Caso esteja visualizando esta tela sobre "<b>Falha ao Fazer o Login</b>", verifique as seguintes condições:<p></div>';
+		mensagem = mensagem + '<div style="padding-left:100px"><p> - Se seu curso é <b>Graduação EAD</b>, você deve utilizar o AVA destinado para a Graduação EAD utilizando seu login e senha institucionais (<a href="https://ava.pucpr.br" target="_blank">clique aqui</a>);</p></div>';
+		mensagem = mensagem + '<div style="padding-left:100px"><p> - Se possui algum e-mail da Microsoft (hotmail, outlook, outro e-mail profissional, etc.), tente o acesso através de uma sessão anônima no seu navegador ou utilize outro navegador para tentar acessar o AVA;</p></div>';
+		mensagem = mensagem + '<div style="padding-left:100px"><p> - Se nesta nova tentativa a mensagem acima ainda não constar nenhum usuário, certifique-se que não esteja logado com nenhuma outra conta da Microsoft (hotmail, outlook, outro e-mail profissional, etc.);</p></div>';
+		mensagem = mensagem + '<div style="padding-left:100px"><p> - Caso tenha recebido um e-mail de confirmação de matrícula do seu curso com os dados de acesso e a informação apresentada é a de que o seu e-mail não tem uma conta no Canvas, por favor <b>aguarde até 24h</b> para que seja efetivada a integração entre os sistemas.</p></div>';
+		mensagem = mensagem + '<div style="padding-left:100px"><p> - Qualquer situação diferente das acima, abra um chamado no formulário no link a seguir: <a href="https://app.pipefy.com/public/form/4ib2l0Q8" target="_blank">Formulário Suporte</a> com informações pertinentes a seu acesso.</p></div>';
+		htmlFinal = html + mensagem;
+		
+		objBlocoMsg.innerHTML = htmlFinal;
+	}
+}
+
+/*
+function incluirPesquisa(){
+	
+	var objeto = document.getElementById('dashboard_header_container');
+	if(objeto)
+	{	
+		htmlBasico = objeto.innerHTML;		
+	
+		htmlLTI  = '';
+		
+		htmlLTI  = htmlLTI + "<form action=\"https://ava.pucpr.br/canvas/pesquisaLTI.php\" class=\"hide\" method=\"POST\" target=\"_blank\" id=\"formLTI\" data-tool-path=\"/canvas/pesquisaLTI.php\" data-message-type=\"tool_launch\">";
+		htmlLTI  = htmlLTI + "<input type=\"hidden\" name=\"oauth_consumer_key\" id=\"oauth_consumer_key\" value=\"EaD@2018\">";
+		htmlLTI  = htmlLTI + "<input type=\"hidden\" name=\"oauth_signature_method\" id=\"oauth_signature_method\" value=\"HMAC-SHA1\">";
+		htmlLTI  = htmlLTI + "<input type=\"hidden\" name=\"custom_canvas_user_id\" id=\"custom_canvas_user_id\" value=" + ENV.current_user.id + ">";
+		htmlLTI  = htmlLTI + "<input type=\"hidden\" name=\"custom_canvas_full_name\" id=\"custom_canvas_full_name\" value=\"" + ENV.current_user.display_name + "\">";
+		htmlLTI  = htmlLTI + "<input type=\"hidden\" name=\"custom_canvas_user_mail\" id=\"custom_canvas_user_mail\" value=\"" + ENV.USER_EMAIL + "\">";
+		htmlLTI  = htmlLTI + "<input type=\"hidden\" name=\"oauth_signature\" id=\"oauth_signature\" value=\"XCrUM413Ef1EXAT2P5I4JKjhDqU=\">";
+		htmlLTI  = htmlLTI + "</form>";
+		htmlLTI	 = htmlLTI + "<DIV style=\"padding:20px;text-align:center;width:100%;\"><a href=\"javascript:abrirPesquisaPUCPR()\"><img src=\"https://ava.pucpr.br/canvas/pesquisas/img/blackboardPesq_v3.jpg\"></a></DIV>";
+	
+
+		htmlSaida = htmlLTI + htmlBasico;
+		objeto.innerHTML = htmlSaida;
+	}
+}
+
+function abrirPesquisaPUCPR()
+{
+	objForm = document.getElementById('formLTI');		
+	objForm.submit();
+}
+*/
+
+function alteraNomeCursosAbertos()
+{
+	var objetos = document.getElementsByClassName('ic-Action-header__Secondary');
+	var tamanho = objetos.length;
+	for(aux=0;aux<tamanho;aux++)
+	{
+		//console.log(objetos[aux].innerHTML);
+		objetos[aux].innerHTML = objetos[aux].innerHTML.replace('Browse More Courses', 'Listar Cursos Abertos');
+		objetos[aux].innerHTML = objetos[aux].innerHTML.replace('Procurar Mais Cursos', 'Listar Cursos Abertos');
+	}
+}
+
+
+function hideBigBlueButton()
+{
+	var objetos = document.getElementsByClassName('section');
+	var tamanho = objetos.length;
+	for(aux=0;aux<tamanho;aux++)
+	{
+		objMenu = objetos[aux].getElementsByClassName('conferences');		
+		var tamanho2 = objMenu.length;
+		for(aux2=0;aux2<tamanho2;aux2++)			
+			objetos[aux].style.display = 'none';
+		
+	}	
+}
+
+window.onload = function () 
+{ 
+    var urlAtual = window.location.href;    
+    //console.log(urlAtual);
+    // ExpressÃƒÂ£o regular para extrair informaÃƒÂ§ÃƒÂµes da URL
+    const regex = /^https:\/\/([\w.-]+)\/courses\/(\d+)\/groups(?:#.*)?$/;
+    const matches = urlAtual.match(regex);
+    if (matches) 
+    {
+     // console.log("pagina");
+      setTimeout(function(){
+        arrAba = document.getElementsByClassName("group-category-tab-link ui-tabs-anchor")
+        var num    = arrAba.length;
+        console.log(num);
+        for(aux=0;aux<num;aux++)
+        {
+          arrAba[aux].addEventListener("click", function() {
+            console.log("click");
+            setTimeout(abrirGrupos, 1500);  
+          });
+        } 
+        setTimeout(abrirGrupos, 1500);  
+      },1000);
+
+    }
+}
+
+ 
+
+function abrirGrupos()
+{  
+// console.log("entrou");
+  var normal = document.getElementsByClassName('toggle-group group-heading');
+  var num    = normal.length;
+  //var num    = 60;
+  for(aux=0;aux<num;aux++)
+  {
+    normal[aux].click();
+  } 
+}
+/*
+function hideOpcoesContato()
+{
+	$("[aria-controls=register_sms_number]").removeClass("ui-tabs-active ui-state-active");
+	$("[aria-controls=register_sms_number]").attr("aria-selected","false");
+	$("[aria-controls=register_sms_number]").hide();
+	
+	$("[aria-controls=register_email_address]").addClass("ui-tabs-active ui-state-active ui-state-focus");	
+	$("[aria-controls=register_email_address]").attr("aria-selected","true");
+	//link = $("[aria-controls=register_email_address]").getElementsByTagName("a").click();
+	//link.click();
+	
+	
+	//$("[aria-controls=register_email_address]").children(":first").click();
+	//console.log($("[aria-controls=register_email_address]").children(":first"));
+	
+	//console.log($("[aria-controls=\"register_email_address\"]"))
+	//console.log($("[aria-controls=register_sms_number]"))
+	//$("[aria-controls=register_slack_handle]").hide()
+	console.log('oi');
+	
+}
+	*/
